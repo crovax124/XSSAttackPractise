@@ -1,5 +1,5 @@
 const express = require('express');
-
+var xss = require("xss");
 const db = require('../data/database');
 
 const router = express.Router();
@@ -9,13 +9,14 @@ router.get('/', function (req, res) {
 });
 
 router.get('/discussion', async function (req, res) {
+  const csrfToken = req.csrfToken();
   const comments = await db.getDb().collection('comments').find().toArray();
-  res.render('discussion', { comments: comments });
+  res.render('discussion', { comments: comments, csrfToken: csrfToken });
 });
 
 router.post('/discussion/comment', async function (req, res) {
   const comment = {
-    text: req.body.comment,
+    text: xss(req.body.comment),
   };
 
   await db.getDb().collection('comments').insertOne(comment);

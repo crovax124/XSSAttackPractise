@@ -2,6 +2,8 @@ const path = require('path');
 
 const express = require('express');
 
+const csrf = require('csurf');
+var xss = require("xss");
 const db = require('./data/database');
 const discussionRoutes = require('./routes/discussion');
 
@@ -13,6 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 
+app.use(csrf);
 app.use(discussionRoutes);
 
 app.use(function(error, req, res, next) {
