@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 
 const csrf = require('csurf');
-var xss = require("xss");
+
 const db = require('./data/database');
 const discussionRoutes = require('./routes/discussion');
 
